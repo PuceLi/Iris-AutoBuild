@@ -24,7 +24,7 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          [cite_start]java-version: '21' # [cite: 8, 20]
+          java-version: '21'
           distribution: 'temurin'
           cache: 'gradle'
 
