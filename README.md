@@ -1,7 +1,6 @@
 # Iris-AutoBuild
 
-[![Build and Deploy](https://github.com/PuceLi/Iris-AutoBuild/actions/workflows/build.yml/badge.svg)](https://github.com/
-PuceLi/Iris-AutoBuild/actions/workflows/build.yml)
+[![Build and Deploy](https://github.com/PuceLi/Iris-AutoBuild/actions/workflows/build.yml/badge.svg)](https://github.com/PuceLi/Iris-AutoBuild/actions/workflows/build.yml)
 
 每周日上午六点自动拉取并编译 **Spigot** 插件 **Iris**
 
