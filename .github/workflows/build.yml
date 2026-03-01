@@ -2,9 +2,9 @@ name: Iris-AutoBuild
 
 on:
   schedule:
-    - cron: '0 5 * * 0'  # 仅周日凌晨 5 点触发
+    - cron: '0 6 * * 0'  # 仅周日凌晨 6 点触发
   push:
-    branches: [main, master]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -40,21 +40,21 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew jar --no-daemon
+        run: ./gradlew iris --no-daemon
 
-      - name: Verify and Prepare Artifact
+      - name: Verify & Prepare Artifact
         run: |
-          cd build/libs/
+          cd build/
           ORIGINAL_JAR=$(ls Iris-*.jar | head -n 1)
           NEW_JAR="Iris-${{ env.FULL_VERSION }}.jar"
           mv "$ORIGINAL_JAR" "$NEW_JAR"
-          echo "FINAL_JAR_PATH=build/libs/$NEW_JAR" >> $GITHUB_ENV
+          echo "FINAL_JAR_PATH=build/$NEW_JAR" >> $GITHUB_ENV
 
       - name: Auto Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: "build-${{ env.FULL_VERSION }}"
-          prerelease: true
+          prerelease: false
           title: "Iris Master Build (${{ env.FULL_VERSION }})"
           files: ${{ env.FINAL_JAR_PATH }}
