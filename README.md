@@ -16,10 +16,8 @@
 
 ## Iris
 
- ![Spiget Rating](https://img.shields.io/spiget/stars/84586?label=Iris%20Stars&style=for-the-badge&logo=spigotmc)
-
 <p align="center">
-  一款强大的自定义维度与世界生成器插件，适用于 **Spigot** 服务端
+  一款强大的自定义维度与世界生成器插件，适用于 Spigot 服务端
 </p>
 
 <p align="center">
