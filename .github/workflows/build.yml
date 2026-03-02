@@ -58,14 +58,16 @@ jobs:
           SHA256_SUM=$(sha256sum "$NEW_JAR" | awk '{print $1}')
           echo "SHA256_SUM=$SHA256_SUM" >> $GITHUB_ENV
           echo "FINAL_JAR_PATH=build/$NEW_JAR" >> $GITHUB_ENV
-
-          echo "## 构建信息" > ../release_note.md
-          [cite_start]echo "- **上游版本:** \`${{ env.FULL_VERSION }}\` [cite: 7]" >> ../release_note.md
-          echo "- **构建时间:** \`${{ env.BUILD_TIME }}\`" >> ../release_note.md
-          echo "- **Commit SHA:** [${{ env.FULL_SHA }}](https://github.com/VolmitSoftware/Iris/commit/${{ env.FULL_SHA }})" >> ../release_note.md
-          echo "" >> ../release_note.md
-          echo "## 编译文件校验" >> ../release_note.md
-          echo "- **SHA256:** \`$SHA256_SUM\`" >> ../release_note.md
+          
+          cat <<EOF > ../release_note.md
+          ## 构建信息
+          - **上游版本:** \`${{ env.FULL_VERSION }}\`
+          - **构建时间:** \`${{ env.BUILD_TIME }}\`
+          - **Commit SHA:** [${{ env.FULL_SHA }}](https://github.com/VolmitSoftware/Iris/commit/${{ env.FULL_SHA }})
+          
+          ## 编译文件校验
+          - **SHA256:** \`$SHA256_SUM\`
+          EOF
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
@@ -82,5 +84,4 @@ jobs:
           prerelease: true
           title: "Iris Master Build (${{ env.FULL_VERSION }})"
           files: ${{ env.FINAL_JAR_PATH }}
-          body: |
-            $(cat release_note.md)
+          bodyFile: "release_note.md"
