@@ -52,15 +52,20 @@ jobs:
         run: |
           cd build/
           ORIGINAL_JAR=$(ls Iris-*.jar | head -n 1)
-          NEW_JAR="Iris-${{ env.FULL_VERSION }}.json"
           NEW_JAR="Iris-${{ env.FULL_VERSION }}.jar"
           mv "$ORIGINAL_JAR" "$NEW_JAR"
           
           SHA256_SUM=$(sha256sum "$NEW_JAR" | awk '{print $1}')
-          
-          echo "FINAL_JAR_NAME=$NEW_JAR" >> $GITHUB_ENV
-          echo "FINAL_JAR_PATH=build/$NEW_JAR" >> $GITHUB_ENV
           echo "SHA256_SUM=$SHA256_SUM" >> $GITHUB_ENV
+          echo "FINAL_JAR_PATH=build/$NEW_JAR" >> $GITHUB_ENV
+
+          echo "## 构建信息" > ../release_note.md
+          [cite_start]echo "- **上游版本:** \`${{ env.FULL_VERSION }}\` [cite: 7]" >> ../release_note.md
+          echo "- **构建时间:** \`${{ env.BUILD_TIME }}\`" >> ../release_note.md
+          echo "- **Commit SHA:** [${{ env.FULL_SHA }}](https://github.com/VolmitSoftware/Iris/commit/${{ env.FULL_SHA }})" >> ../release_note.md
+          echo "" >> ../release_note.md
+          echo "## 编译文件校验" >> ../release_note.md
+          echo "- **SHA256:** \`$SHA256_SUM\`" >> ../release_note.md
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
@@ -78,9 +83,4 @@ jobs:
           title: "Iris Master Build (${{ env.FULL_VERSION }})"
           files: ${{ env.FINAL_JAR_PATH }}
           body: |
-            ## 构建信息
-            - **上游版本:** `${{ env.FULL_VERSION }}`
-            - **构建时间:** `${{ env.BUILD_TIME }}`
-            - **Commit SHA:** [${{ env.FULL_SHA }}](https://github.com/VolmitSoftware/Iris/commit/${{ env.FULL_SHA }})
-            
-            - **SHA256:** `${{ env.SHA256_SUM }}`
+            $(cat release_note.md)
