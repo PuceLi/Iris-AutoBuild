@@ -81,7 +81,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: "build-${{ env.FULL_VERSION }}"
-          prerelease: true
+          prerelease: false
           title: "Iris Master Build (${{ env.FULL_VERSION }})"
           files: ${{ env.FINAL_JAR_PATH }}
           bodyFile: "release_note.md"
