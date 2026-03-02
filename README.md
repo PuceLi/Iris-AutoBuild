@@ -1,6 +1,6 @@
 # Iris-AutoBuild
 
-[![Build and Deploy](https://github.com/PuceLi/Iris-AutoBuild/actions/workflows/build.yml/badge.svg)](https://github.com/PuceLi/Iris-AutoBuild/actions/workflows/build.yml)
+[![Build and Deploy](https://img.shields.io/github/actions/workflow/status/PuceLi/Iris-AutoBuild/build.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/PuceLi/Iris-AutoBuild/actions/workflows/build.yml)
 
 每周日上午六点自动拉取并编译 **Spigot** 插件 **Iris**
 
@@ -16,17 +16,16 @@
 
 ## Iris
 
-一款可以自定义维度和生成器的插件
+一款强大的自定义维度与世界生成器插件 ![Spiget Rating](https://img.shields.io/spiget/stars/84586?label=Iris%20Stars&style=for-the-badge&logo=spigotmc)
 
 ### 链接
 
-- [SpigotMC](https://www.spigotmc.org/resources/iris-dimension-engine.84586/)
-
-- [Polymart](https://polymart.org/product/3623/iris-dimension-engine)
-
-- [BuiltByBit](https://builtbybit.com/resources/iris-dimension-engine.56258/)
-
-- [Github](https://github.com/VolmitSoftware/Iris)
+| 平台 | 链接 |
+| --- | --- |
+| **官方源码** | [GitHub - VolmitSoftware/Iris](https://github.com/VolmitSoftware/Iris) |
+| **SpigotMC** | [Iris SpigotMC Page](https://www.spigotmc.org/resources/iris-dimension-engine.84586/) |
+| **Polymart** | [Iris Polymart Page](https://polymart.org/product/3623/iris-dimension-engine) |
+| **BuiltByBit** | [Iris BuiltByBit Page](https://builtbybit.com/resources/iris-dimension-engine.56258/) |
 
 ---
 
