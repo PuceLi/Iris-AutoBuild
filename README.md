@@ -16,16 +16,16 @@
 
 ## Iris
 
-一款强大的自定义维度与世界生成器插件 ![Spiget Rating](https://img.shields.io/spiget/stars/84586?label=Iris%20Stars&style=for-the-badge&logo=spigotmc)
+一款强大的自定义维度与世界生成器插件，适用于 **Spigot** 服务端 ![Spiget Rating](https://img.shields.io/spiget/stars/84586?label=Iris%20Stars&style=for-the-badge&logo=spigotmc)
 
 ### 链接
 
 | 平台 | 链接 |
 | --- | --- |
 | **官方源码** | [GitHub - VolmitSoftware/Iris](https://github.com/VolmitSoftware/Iris) |
-| **SpigotMC** | [Iris SpigotMC Page](https://www.spigotmc.org/resources/iris-dimension-engine.84586/) |
-| **Polymart** | [Iris Polymart Page](https://polymart.org/product/3623/iris-dimension-engine) |
-| **BuiltByBit** | [Iris BuiltByBit Page](https://builtbybit.com/resources/iris-dimension-engine.56258/) |
+| **SpigotMC** | [iris-dimension-engine.84586](https://www.spigotmc.org/resources/iris-dimension-engine.84586/) |
+| **Polymart** | [3623/iris-dimension-engine](https://polymart.org/product/3623/iris-dimension-engine) |
+| **BuiltByBit** | [iris-dimension-engine.56258](https://builtbybit.com/resources/iris-dimension-engine.56258/) |
 
 ---
 
