@@ -59,7 +59,7 @@ jobs:
           echo "SHA256_SUM=$SHA256_SUM" >> $GITHUB_ENV
           echo "FINAL_JAR_PATH=build/$NEW_JAR" >> $GITHUB_ENV
           
-          cat <<EOF > ../release_note.md
+          cat > ../release-notes.md <<EOF
           ## 构建信息
           - **上游版本:** \`${{ env.FULL_VERSION }}\`
           - **构建时间:** \`${{ env.BUILD_TIME }}\`
@@ -70,18 +70,20 @@ jobs:
           EOF
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: Iris-Build-${{ env.SHORT_SHA }}
           path: ${{ env.FINAL_JAR_PATH }}
           retention-days: 14
 
-      - name: Auto Release
-        uses: marvinpinto/action-automatic-releases@latest
+      - name: Create Release
+        uses: softprops/action-gh-release@v2.5.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: "build-${{ env.FULL_VERSION }}"
-          prerelease: false
-          title: "Iris Master Build (${{ env.FULL_VERSION }})"
+          tag_name: "build-${{ env.FULL_VERSION }}"
+          name: "Iris Master Build (${{ env.FULL_VERSION }})"
+          draft: false
+          prerelease: true
+          body_path: release-notes.md
           files: ${{ env.FINAL_JAR_PATH }}
-          bodyFile: "release_note.md"
