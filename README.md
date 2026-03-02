@@ -8,7 +8,7 @@
 
 ## 关于此仓库
 
-**Iris** 在 **SpigotMC** 上需购买才能下载编译完的 `.jar` 文件，但原作者在 **Github** 开源了[该插件](https://github.com/VolmitSoftware/Iris)，因此可使用源代码在 **Github Action** 进行拉取编译
+**Iris** 官方插件获取方式是需要在平台上付费才能下载编译完的 `.jar` 文件，但原作者在 **Github** 开源了[该插件](https://github.com/VolmitSoftware/Iris)，因此可使用源代码在 **Github Action** 进行拉取编译
 
 本仓库构建的 **Iris** 为 `master` 分支，即适用于 **The latest version of Minecraft** 的分支
 
