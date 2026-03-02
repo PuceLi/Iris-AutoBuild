@@ -84,6 +84,6 @@ jobs:
           tag_name: "build-${{ env.FULL_VERSION }}"
           name: "Iris Master Build (${{ env.FULL_VERSION }})"
           draft: false
-          prerelease: true
+          prerelease: false
           body_path: release-notes.md
           files: ${{ env.FINAL_JAR_PATH }}
