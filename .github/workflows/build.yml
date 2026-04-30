@@ -15,25 +15,47 @@ jobs:
 
     steps:
       - name: Checkout Upstream
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v4
         with:
           repository: VolmitSoftware/Iris
           ref: master
-          fetch-depth: 0
+          fetch-depth: 1
+
+      - name: Check for Updates
+        id: check_update
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REMOTE_SHA=$(git rev-parse HEAD)
+          echo "REMOTE_SHA=$REMOTE_SHA" >> $GITHUB_ENV
+          
+          LAST_TAG=$(gh release list --limit 1 | awk '{print $1}' || echo "none")
+          
+          echo "Current Remote SHA: $REMOTE_SHA"
+          echo "Last Release Tag: $LAST_TAG"
+
+          if [[ "$LAST_TAG" == *"$REMOTE_SHA"* ]]; then
+            echo "::notice::远程仓库无更新，跳过本次构建。"
+            echo "should_build=false" >> $GITHUB_OUTPUT
+          else
+            echo "should_build=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v5.2.0
+        if: steps.check_update.outputs.should_build == 'true'
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: 'gradle'
 
       - name: Get Build Info
+        if: steps.check_update.outputs.should_build == 'true'
         id: vars
         run: |
           RAW_VERSION=$(grep "version =" build.gradle.kts | awk -F'"' '{print $2}')
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          FULL_SHA=$(git rev-parse HEAD)
+          FULL_SHA=${{ env.REMOTE_SHA }}
+          SHORT_SHA=$(echo $FULL_SHA | cut -c1-7)
           BUILD_TIME=$(date -u +'%Y-%m-%d %H:%M:%S UTC')
           
           echo "FULL_VERSION=${RAW_VERSION}-${SHORT_SHA}" >> $GITHUB_ENV
@@ -41,13 +63,14 @@ jobs:
           echo "FULL_SHA=${FULL_SHA}" >> $GITHUB_ENV
           echo "BUILD_TIME=${BUILD_TIME}" >> $GITHUB_ENV
 
-      - name: Grant execute permission
-        run: chmod +x gradlew
-
       - name: Build with Gradle
-        run: ./gradlew iris --no-daemon
+        if: steps.check_update.outputs.should_build == 'true'
+        run: |
+          chmod +x gradlew
+          ./gradlew iris --no-daemon
 
       - name: Verify & Prepare Artifact
+        if: steps.check_update.outputs.should_build == 'true'
         id: prepare
         run: |
           cd build/
@@ -60,30 +83,18 @@ jobs:
           echo "FINAL_JAR_PATH=build/$NEW_JAR" >> $GITHUB_ENV
           
           cat > ../release-notes.md <<EOF
-          ## 构建信息
           - **上游版本:** \`${{ env.FULL_VERSION }}\`
           - **构建时间:** \`${{ env.BUILD_TIME }}\`
           - **Commit SHA:** [${{ env.FULL_SHA }}](https://github.com/VolmitSoftware/Iris/commit/${{ env.FULL_SHA }})
           
-          ## 编译文件校验
           - **SHA256:** \`$SHA256_SUM\`
           EOF
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Iris-Build-${{ env.SHORT_SHA }}
-          path: ${{ env.FINAL_JAR_PATH }}
-          retention-days: 14
-
       - name: Create Release
-        uses: softprops/action-gh-release@v2.5.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.check_update.outputs.should_build == 'true'
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: "build-${{ env.FULL_VERSION }}"
+          tag_name: "build-${{ env.REMOTE_SHA }}"
           name: "Iris Master Build (${{ env.FULL_VERSION }})"
-          draft: false
-          prerelease: false
           body_path: release-notes.md
           files: ${{ env.FINAL_JAR_PATH }}
